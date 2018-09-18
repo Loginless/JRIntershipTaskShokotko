@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import ua.com.computerconsructor.dao.ComputerPartsDao;
+import ua.com.computerconsructor.model.ComputerParts;
+import ua.com.computerconsructor.service.ComputerPartsService;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class PartsListController {
@@ -15,17 +17,33 @@ public class PartsListController {
     private static final Logger logger = Logger
             .getLogger(PartsListController.class);
 
-    public PartsListController() {
-        System.out.println("PartsListController");
-    }
+    private ComputerPartsService computerPartsService;
 
     @Autowired
-    private ComputerPartsDao computerPartsDao;
+    public void setComputerPartsService(ComputerPartsService computerPartsService) {
+        this.computerPartsService = computerPartsService;
+    }
 
-
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/comparts")
     public ModelAndView listEmployee(ModelAndView model) throws IOException {
-        model.setViewName("home");
+
+        List<ComputerParts> allParts = computerPartsService.getAll();
+
+        model.setViewName("comparts");
+        model.addObject("partsList", allParts);
         return model;
+    }
+
+
+    @RequestMapping("/createoffer")
+    public String createPart() {
+
+        return "createoffer";
+    }
+
+    @RequestMapping("/deletepart")
+    public String deletePart() {
+
+        return "deletepart";
     }
 }
