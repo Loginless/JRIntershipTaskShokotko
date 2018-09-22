@@ -16,4 +16,6 @@ public interface ComputerPartsDao {
 
     public List<ComputerParts> getAllParts();
 
+    List<ComputerParts> listParts(String param);
+
 }

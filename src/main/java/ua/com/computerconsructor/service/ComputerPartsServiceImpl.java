@@ -13,6 +13,7 @@ public class ComputerPartsServiceImpl implements ComputerPartsService {
     @Autowired
     ComputerPartsDao computerPartsDao;
 
+
     @Override
     public ComputerParts addPart(ComputerParts part) {
 
@@ -38,5 +39,26 @@ public class ComputerPartsServiceImpl implements ComputerPartsService {
     public List<ComputerParts> getAll() {
         return computerPartsDao.getAllParts();
     }
+
+    @Override
+    public List<ComputerParts> listParts(String param) {
+        return this.computerPartsDao.listParts(param);
+    }
+
+    @Override
+    public int getComputersCount() {
+        List<ComputerParts> mandatoryPartsList = computerPartsDao.listParts("mandatory");
+        int compCount = 0;
+        if (!mandatoryPartsList.isEmpty()) {
+            compCount = mandatoryPartsList.get(0).getQuantity();
+            for (ComputerParts temp : mandatoryPartsList) {
+                if (temp.getQuantity() < compCount) {
+                    compCount = temp.getQuantity();
+                }
+            }
+        }
+        return compCount;
+    }
+
 }
 

@@ -16,7 +16,7 @@ public class ComputerParts implements Serializable {
     private String partName;
 
     @Column
-    private String isMandatory;
+    private boolean mandatory;
 
     @Column
     private int quantity;
@@ -37,12 +37,12 @@ public class ComputerParts implements Serializable {
         this.partName = partName;
     }
 
-    public String getIsMandatory() {
-        return isMandatory;
+    public boolean isMandatory() {
+        return mandatory;
     }
 
-    public void setIsMandatory(String isMandatory) {
-        this.isMandatory = isMandatory;
+    public void setMandatory(boolean mandatory) {
+        this.mandatory = mandatory;
     }
 
     public int getQuantity() {

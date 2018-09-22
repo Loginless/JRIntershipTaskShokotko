@@ -15,4 +15,7 @@ public interface ComputerPartsService {
 
     List<ComputerParts> getAll();
 
+    List<ComputerParts> listParts(String param);
+
+    int getComputersCount();
 }
