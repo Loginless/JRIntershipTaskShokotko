@@ -4,8 +4,7 @@ import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.computerconsructor.model.ComputerParts;
 import ua.com.computerconsructor.service.ComputerPartsService;
@@ -18,9 +17,6 @@ public class PartsListController {
     private static String currentParam = "all";
     private static Integer currentPage = 1;
 
-    private static final Logger logger = Logger
-            .getLogger(PartsListController.class);
-
     private ComputerPartsService computerPartsService;
 
     @Autowired
@@ -28,19 +24,7 @@ public class PartsListController {
         this.computerPartsService = computerPartsService;
     }
 
-    @RequestMapping("/createoffer")
-    public String createPart() {
-
-        return "createoffer";
-    }
-
-    @RequestMapping("/deletepart")
-    public String deletePart() {
-
-        return "deletepart";
-    }
-
-    @RequestMapping(value = "/comparts")
+    @RequestMapping(value = "/comparts/")
     public ModelAndView listOfParts(@RequestParam(required = false) Integer page, @RequestParam(required = false) String param) {
         ModelAndView modelAndView = new ModelAndView("comparts");
 
@@ -75,6 +59,54 @@ public class PartsListController {
         }
 
         return modelAndView;
+    }
+
+    //Add a new part
+
+    @RequestMapping(value = "/addpart", method = RequestMethod.GET)
+    public String addPart() {
+        return "addpart";
+    }
+
+    @RequestMapping(value = "/createPart", method = RequestMethod.POST)
+    public String addPart(@RequestParam(required = false) String partName,
+                          @RequestParam(required = false) boolean paramMandatory,
+                          @RequestParam(required = false) Integer partsQuantity) {
+        if (!partName.equals(null) && !partsQuantity.equals(null)) {
+            ComputerParts newPart = new ComputerParts();
+            newPart.setPartName(partName);
+            newPart.setMandatory(paramMandatory);
+            newPart.setQuantity(partsQuantity);
+            computerPartsService.addPart(newPart);
+        }
+        return "redirect:/comparts/";
+    }
+
+
+    //Delete part from a database
+    @RequestMapping(value = "/delete/{id}")
+    public String removePart(@PathVariable("id") int id) {
+        computerPartsService.deleteById(id);
+        return "redirect:/comparts/";
+    }
+
+    //Edit part in a list
+    @RequestMapping(value = "/edit/{id}")
+    public ModelAndView editPart(@PathVariable("id") int id) {
+        ModelAndView modelAndView = new ModelAndView("edit");
+        if (id != 0) {
+            modelAndView.addObject("computerParts", computerPartsService.getById(id));
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/editPart", method = RequestMethod.POST)
+    public String updatePart(@ModelAttribute("editedPart") ComputerParts editedPart) {
+        if (editedPart.getId() != 0) {
+            computerPartsService.editPart(editedPart);
+            System.out.println("Part was edited");
+        }
+        return "redirect:/comparts/";
     }
 
 }

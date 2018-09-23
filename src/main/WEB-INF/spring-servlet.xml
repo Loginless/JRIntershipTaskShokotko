@@ -61,7 +61,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <!--<mvc:default-servlet-handler/>-->
+    <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
     <tx:annotation-driven/>
 

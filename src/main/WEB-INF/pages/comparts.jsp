@@ -12,6 +12,7 @@
         /*Grid Containder*/
         .header {
             grid-area: header;
+            background-color: #4c7aaf;
         }
 
         .search {
@@ -38,15 +39,14 @@
             display: grid;
             grid-template-areas: 'header header header' 'search search search' 'mainTable mainTable mainTable' 'computersQty computersQty computersQty' 'footer footer footer';
             grid-gap: 1px;
-            /*background-color: #2196F3;*/
-            padding: 10px;
+            padding: 1px;
         }
 
         .grid-container > div {
             background-color: rgba(255, 255, 255, 0.8);
             text-align: center;
-            padding: 20px 0;
-            font-size: 30px;
+            padding: 2px 0;
+            font-size: 25px;
         }
 
         /*Header*/
@@ -102,7 +102,7 @@
 <div class="grid-container">
 
     <%--Header--%>
-    <div class="header">
+    <div class="header" style="background-color: #4c7aaf">
         <h1>Список доступного оборудования</h1>
     </div>
 
@@ -110,14 +110,14 @@
     <%--Search and filter--%>
     <div class="search">
         <div>
-            <form action="/comparts" class="search">
+            <form action="${pageContext.request.contextPath}/comparts/" class="search">
                 Поиск по наименованию детали:
                 <input type="text" placeholder="название детали" name="param"/>
                 <input type="submit" value="Поиск"/>
             </form>
         </div>
 
-        <form action="/comparts" class="search">
+        <form action="${pageContext.request.contextPath}/comparts/" class="search">
             Применить фильтр:
             <button name="param" type="submit" value="allParts">Показать все детали</button>
             <button name="param" type="submit" value="mandatory">Детали, необходимые для сборки компьютера</button>
@@ -151,8 +151,8 @@
                         </c:otherwise>
                     </c:choose>
                     <td>${row.quantity}</td>
-                    <td align="center"><a href="<c:url value='/edit/${part.id}'/>">Изменить</a></td>
-                    <td align="center"><a href="<c:url value='/remove/${part.id}'/>">Удалить</a></td>
+                    <td align="center"><a href="<c:url value='${pageContext.request.contextPath}/edit/${row.id}'/>">Изменить</a></td>
+                    <td align="center"><a href="<c:url value='${pageContext.request.contextPath}/delete/${row.id}'/>">Удалить</a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -161,12 +161,14 @@
     <%--Total comp. q-ty--%>
     <div class="computersQty" style="text-align: left">
             Можно собрать ${availableComputers} компьютеров
+        <p><a href="${pageContext.request.contextPath}/addpart/">Добавить новое оборудование.</a></p>
+
     </div>
 
     <%--Pagination--%>
     <div class="footer">
         <div align="center" id="pagination">
-            <c:url value="/comparts" var="prev">
+            <c:url value="/comparts/" var="prev">
                 <c:param name="page" value="${page-1}"/>
             </c:url>
             <c:if test="${page > 1}">
@@ -179,14 +181,14 @@
                         <span>${i.index}</span>
                     </c:when>
                     <c:otherwise>
-                        <c:url value="/comparts" var="url">
+                        <c:url value="/comparts/" var="url">
                             <c:param name="page" value="${i.index}"/>
                         </c:url>
                         <a href='<c:out value="${url}" />'>${i.index}</a>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
-            <c:url value="/comparts" var="next">
+            <c:url value="/comparts/" var="next">
                 <c:param name="page" value="${page + 1}"/>
             </c:url>
             <c:if test="${page + 1 <= maxPages}">

@@ -16,23 +16,23 @@ public class ComputerPartsServiceImpl implements ComputerPartsService {
 
     @Override
     public ComputerParts addPart(ComputerParts part) {
-
-        return null;
+        computerPartsDao.addPart(part);
+        return part;
     }
 
     @Override
     public void deleteById(Integer id) {
-
+        computerPartsDao.deletePart(id);
     }
 
     @Override
-    public ComputerParts getByName(String partName) {
-        return null;
+    public ComputerParts getById(Integer id) {
+        return computerPartsDao.getPart(id);
     }
 
     @Override
     public ComputerParts editPart(ComputerParts part) {
-        return null;
+        return computerPartsDao.updatePart(part);
     }
 
     @Override

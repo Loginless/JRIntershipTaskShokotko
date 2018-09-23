@@ -35,6 +35,11 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-orm:5.0.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.0.8.RELEASE" />
           <element id="library" level="project" name="Maven: displaytag:displaytag:1.2" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.13" />
+          <element id="library" level="project" name="Maven: org.hibernate:hibernate-entitymanager:5.3.3.Final" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.5" />
+          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:2.0.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-jpa:2.0.8.RELEASE" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="IntershipTaskShokotko/web/Web" />

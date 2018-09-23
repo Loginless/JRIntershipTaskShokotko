@@ -9,7 +9,7 @@ public interface ComputerPartsService {
 
     void deleteById(Integer id);
 
-    ComputerParts getByName(String name);
+    ComputerParts getById(Integer id);
 
     ComputerParts editPart(ComputerParts part);
 

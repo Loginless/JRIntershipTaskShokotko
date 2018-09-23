@@ -2,11 +2,9 @@ package ua.com.computerconsructor.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ua.com.computerconsructor.controllers.PartsListController;
 import ua.com.computerconsructor.model.ComputerParts;
 
 import java.util.List;
@@ -16,8 +14,6 @@ import java.util.List;
 @Repository
 public class ComputerPartsDaoImpl implements ComputerPartsDao {
 
-    private static final Logger logger = Logger
-            .getLogger(PartsListController.class);
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -33,7 +29,10 @@ public class ComputerPartsDaoImpl implements ComputerPartsDao {
 
     @Override
     public void deletePart(Integer partId) {
-        sessionFactory.getCurrentSession().delete(partId);
+        ComputerParts computerParts = sessionFactory.getCurrentSession().load(ComputerParts.class, partId);
+        if (!computerParts.equals(null)) {
+            sessionFactory.getCurrentSession().delete(computerParts);
+        }
     }
 
     @Override
@@ -51,7 +50,6 @@ public class ComputerPartsDaoImpl implements ComputerPartsDao {
     @SuppressWarnings("unchecked")
     public List<ComputerParts> getAllParts() {
         return session().createQuery("from ComputerParts").list();
-
     }
 
     @Override
@@ -66,15 +64,11 @@ public class ComputerPartsDaoImpl implements ComputerPartsDao {
         } else if (param.equals("optional")) {
             query = "FROM ComputerParts E WHERE E.mandatory = false";
         } else {
-            query = "FROM ComputerParts E WHERE E.partName like '%"+ param +"%'";
+            query = "FROM ComputerParts E WHERE E.partName like '%" + param + "%'";
         }
 
         Session session = this.sessionFactory.getCurrentSession();
         List<ComputerParts> partList = session.createQuery(query).list();
-
-        for (ComputerParts part : partList) {
-            logger.info("Part list: " + part);
-        }
 
         return partList;
     }
